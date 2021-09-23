@@ -21,11 +21,12 @@ export type EthereumChainParams = {
     decimals: number
   }
   rpcUrls: string[]
-  blockExplorerUrls: string[]
+  blockExplorerUrls: string[] | null
 }
 
 export async function setupMetamaskNetwork(params: EthereumChainParams) {
   const provider = (window as WindowChain).ethereum
+  console.log(provider)
   if (provider) {
     try {
       await provider.request({
@@ -44,7 +45,7 @@ export async function setupMetamaskNetwork(params: EthereumChainParams) {
       return false
     }
   } else {
-    console.error('Can\'t setup the BSC network on metamask because window.ethereum is undefined')
+    console.error('Can\'t setup network on metamask because window.ethereum is undefined')
     return false
   }
 }

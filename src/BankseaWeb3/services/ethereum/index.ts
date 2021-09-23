@@ -9,9 +9,10 @@ import { createNFT, NftCreateForm } from '@/apis/nft'
 import { ExchangeOrder, ExchangeOrderAsset, SellingOrder } from '../../contracts/ethereum/services/exchange/types'
 import { hashExchangeOrder, hashExchangeOrderAsset } from '../../contracts/ethereum/services/exchange/utils'
 import { ethers } from 'ethers'
-import { chooseOrder, completeOrder, sellOrder } from '@/apis/exchange/ethereum'
-import { toBigNumber, toWei, weiToBigNumber } from '@/web3/utils'
+import { completeOrder, createSellOrder, findOrder } from '@/apis/exchange/ethereum'
+import { toBigNumber, toWei, web3Utils, weiToBigNumber } from '@/web3/utils'
 import { NftDetail } from '@/types/NFTDetail'
+import { TransactionReceipt, TransactionResponse } from '@/BankseaWeb3/contracts/ethereum/contracts/type'
 
 export class BankseaWeb3EthereumServicesImpl implements BankseaWeb3Services {
 
@@ -19,6 +20,7 @@ export class BankseaWeb3EthereumServicesImpl implements BankseaWeb3Services {
     const ee = new SimpleEventEmitter<CreateNftEvents>()
 
     ee.task = async () => {
+
       const nftMetadata = generateNftMetadata(nftCreateForm)
 
       ee.emit('pinning_json')
@@ -50,27 +52,31 @@ export class BankseaWeb3EthereumServicesImpl implements BankseaWeb3Services {
       }
 
       bankseaWeb3.eth.Banksea.awardItem(account!, tokenUri)
-        .then(async () => {
+        .then((response: TransactionResponse) => {
+          response.wait().then(async (receipt: TransactionReceipt) => {
+            const [, , , tokenId] = receipt.logs[0].topics
+
+            await createNFT({ ...createForm, tokenId: web3Utils.hexToNumberString(tokenId) })
+            ee.emit('complete')
+          })
           ee.emit('submitted')
-          await createNFT(createForm)
-          ee.emit('complete')
         })
         .catch(e => {
           ee.emit('wallet_error', e)
         })
-
     }
 
     return ee
   }
 
   async listByFixedPrice(nftDetail: NftDetail, price: string, account?: string) {
+
     if (!account) {
       throw new Error('Account must be not null!')
     }
 
-    if (!await bankseaWeb3.eth.Banksea.isApprovedForAll(account, '0x928Fd76a5C287D7A334fdfb7DbAE91422Dabd98A')) {
-      bankseaWeb3.eth.Banksea.setApprovalForAll('0x928Fd76a5C287D7A334fdfb7DbAE91422Dabd98A', true)
+    if (!await bankseaWeb3.eth.Banksea.isApprovedForAll(account, '0xa0d0d425715C735f950dFED41876AAF626a0A4b5')) {
+      await bankseaWeb3.eth.Banksea.setApprovalForAll('0xa0d0d425715C735f950dFED41876AAF626a0A4b5', true)
     }
 
     const salt = (Date.parse(new Date().toString())) / 1000
@@ -81,7 +87,7 @@ export class BankseaWeb3EthereumServicesImpl implements BankseaWeb3Services {
         code: {
           baseType: 3,
           extraType: nftDetail?.tokenId,
-          contractAddr: '0xb1e45866BF3298A9974a65577c067C477D38712a'
+          contractAddr: bankseaWeb3.eth.Banksea.contract!.address
         },
         value: 1
       },
@@ -134,7 +140,7 @@ export class BankseaWeb3EthereumServicesImpl implements BankseaWeb3Services {
       salt
     }
 
-    await sellOrder(sellingOrder)
+    await createSellOrder(sellingOrder)
   }
 
   async checkBalance(nftDetail: any): Promise<void> {
@@ -148,7 +154,7 @@ export class BankseaWeb3EthereumServicesImpl implements BankseaWeb3Services {
   }
 
   async purchaseByFixedPrice({ nftDetail, account, onAuthorized, onSuccess }: PurchaseByFixedPriceParams) {
-    const buyData = (await chooseOrder({
+    const buyData = (await findOrder({
       valueUri: nftDetail?.valueUri
     })).data.data
 
@@ -163,7 +169,7 @@ export class BankseaWeb3EthereumServicesImpl implements BankseaWeb3Services {
           code: {
             baseType: 3,
             extraType: nftDetail!.tokenId,
-            contractAddr: '0xb1e45866BF3298A9974a65577c067C477D38712a'
+            contractAddr: bankseaWeb3.eth.Banksea.contract!.address
           },
           value: 1
         },
@@ -208,7 +214,7 @@ export class BankseaWeb3EthereumServicesImpl implements BankseaWeb3Services {
         code: {
           baseType: 3,
           extraType: nftDetail?.tokenId,
-          contractAddr: '0xb1e45866BF3298A9974a65577c067C477D38712a'
+          contractAddr: bankseaWeb3.eth.Banksea.contract!.address
         },
         value: 1
       },

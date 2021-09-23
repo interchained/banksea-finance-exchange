@@ -1,8 +1,7 @@
 import { AbstractContractCaller } from '../../AbstractContractCaller'
 import { Contract } from 'ethers'
 
-const contractAddress = '0xb1e45866BF3298A9974a65577c067C477D38712a'
-
+const contractAddress = '0xf782376d8327df7f6040fce2f871dF3bA3d047B5'
 
 class Banksea extends AbstractContractCaller {
   constructor(network: string, signer: any, provider: any) {
@@ -19,7 +18,7 @@ class Banksea extends AbstractContractCaller {
   }
 
   async awardItem(address: string, tokenUri: string) {
-    return await this.contract!.awardItem(address, tokenUri)
+    return this.contract!.awardItem(address, tokenUri)
   }
 
   async isApprovedForAll(owner: string, operator: string) {

@@ -12,7 +12,7 @@ const Web3EnvContextProvider: React.FC = ({ children }) => {
   const hexChainId = process.env.REACT_APP_CHAIN_ID!
   const decChainId = parseInt(hexChainId, 16)
   const RPCUrl = process.env.REACT_APP_RPC_URL!
-  const blockExplorerUrl = process.env.REACT_APP_BLOCK_EXPLORER_URL!
+  const blockExplorerUrl = process.env.REACT_APP_BLOCK_EXPLORER_URL
   const chainName = process.env.REACT_APP_NETWORK_NAME!
 
   dispatch(setChainId(decChainId))
@@ -20,7 +20,7 @@ const Web3EnvContextProvider: React.FC = ({ children }) => {
 
   const providerInitialized = useInitializeProvider(decChainId, RPCUrl)
   const networkReady = useSetupNetwork(providerInitialized, {
-    blockExplorerUrls: [blockExplorerUrl],
+    blockExplorerUrls: blockExplorerUrl ? [blockExplorerUrl] : null,
     chainName,
     chainId: hexChainId,
     rpcUrls: [RPCUrl]

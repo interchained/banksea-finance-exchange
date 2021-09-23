@@ -196,7 +196,8 @@ const CornerFlag = styled.div`
   position: absolute;
   color: white;
   bottom: 20vw;
-  right: 16vw;
+  left: -6px;
+  top: -15px;
   font-weight: 550;
   text-align: center;
   width: 4.5vw;
@@ -1232,25 +1233,6 @@ const CollectibleDetailPage: React.FC = () => {
   } = usePurchaseCheckoutModal(nftDetail, checkoutPassed, checkoutFailed)
 
   useEffect(() => {
-    if (nftDetail?.nftPubKey) {
-      //
-    }
-
-  }, [nftDetail])
-
-  const allowToSell = () => {
-    if (nftDetail?.typeChain === 'Solana') {
-      // TODO: hack
-      // return true
-      return nftDetail?.nftPubKey?.length > 0 && account === nftDetail?.addressOwner
-    }
-
-    if (nftDetail?.typeChain === 'Ethereum') {
-      return nftDetail?.tokenId > 0 && account === nftDetail?.addressOwner
-    }
-  }
-
-  useEffect(() => {
     if (!(nftDetail?.onSale && nftDetail.price)) {
       setReasonOfUnableToBuy('Not on sale')
       return
@@ -1271,7 +1253,21 @@ const CollectibleDetailPage: React.FC = () => {
   }, [account, currentChain, nftDetail])
 
   const allowToSoldOut = () => {
-    return nftDetail?.onSale && allowToSell()
+    // fixme: mock
+    return false
+    // return nftDetail?.onSale && allowToSell()
+  }
+
+  const allowToSell = () => {
+    if (nftDetail?.typeChain === 'Solana') {
+      return nftDetail?.nftPubKey?.length > 0 && account === nftDetail?.addressOwner
+    }
+
+    if (nftDetail?.typeChain === 'Ethereum') {
+      // fixme: hack
+      return account === nftDetail?.addressOwner
+      // return nftDetail?.tokenId > 0 && account === nftDetail?.addressOwner
+    }
   }
 
   const onClickBuyButton = () => {

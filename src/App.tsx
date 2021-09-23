@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './app.scss'
 import { Layout } from 'antd'
 import AppHeader from './layout/AppHeader'
@@ -9,6 +9,7 @@ import { useMediaQuery } from 'react-responsive'
 import { Route } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { setSideBarCollapsed, useSideBarCollapsed } from './store/app'
+import { bankseaWeb3 } from '@/BankseaWeb3'
 
 const Header = styled(Layout.Header)`
   padding: 0;
@@ -48,6 +49,14 @@ const App: React.FC = () => {
   const toggleCollapsed = () => {
     dispatch(setSideBarCollapsed(!sideBarCollapsed))
   }
+
+  useEffect(() => {
+    return () => {
+      console.log('remove all listeners')
+      bankseaWeb3.eth.Banksea.contract?.removeAllListeners()
+    }
+  }, [])
+
 
   return (
     <Layout className="app">

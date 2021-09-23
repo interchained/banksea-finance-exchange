@@ -2,7 +2,7 @@ import { AbstractContractCaller } from '../../AbstractContractCaller'
 import { Contract } from 'ethers'
 import { ExchangeOrder } from '../../services/exchange/types'
 
-const contractAddress = '0x1Da28CC4693477E97BE4FA592918C216aE79D7aa'
+const contractAddress = '0x7ccAD48cF9A27B483590D737fEb072B332656090'
 
 class Exchange extends AbstractContractCaller {
 
