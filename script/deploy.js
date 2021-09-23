@@ -3,8 +3,8 @@ require('dotenv').config()
 const path = require('path')
 const { NodeSSH } = require('node-ssh')
 
-const REMOTE_DEPLOY_PATH = '/home/devops/banksy/banksy-finance-exchange/middleware'
-const DOCKER_IMAGE_NAME = 'banksy_nginx'
+const REMOTE_DEPLOY_PATH = '/home/devops/banksea/banksea-finance-exchange/middleware'
+const DOCKER_IMAGE_NAME = 'banksea_nginx'
 const REMOTE_DEPLOY_PATH_INNER = `${REMOTE_DEPLOY_PATH}/ui`
 const DIST_ARCH = './build'
 
