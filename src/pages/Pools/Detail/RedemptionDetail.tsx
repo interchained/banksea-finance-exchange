@@ -284,7 +284,7 @@ const ScheduleFirst:React.FC = () => {
 
   return (
     <ScheduleFirstCenter>
-      <div className="title">Prepay overview</div>
+      <div className="title">Redemption overview</div>
       <div className="main-title">
         Are you sure you want to prepay this NFT ？
       </div>
