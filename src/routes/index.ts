@@ -1,5 +1,5 @@
 import HomePage from '@/pages/Home'
-import CollectiblesPage from '@/pages/Collectibles'
+import MarketplacePage from '@/pages/Marketplace'
 import { ReactComponent as HomeIcon } from '@/assets/images/menu-icons/home.svg'
 import { ReactComponent as CollectiblesIcon } from '@/assets/images/menu-icons/collectibles.svg'
 import { ReactComponent as ArtistsIcon } from '@/assets/images/menu-icons/artists.svg'
@@ -10,7 +10,7 @@ import { ReactComponent as PoolsIcon } from '@/assets/images/menu-icons/pools.sv
 import { ReactComponent as MarketplaceIcon } from '@/assets/images/menu-icons/marketplace.svg'
 import { ReactComponent as PriceAirDropIcon } from '@/assets/images/menu-icons/priceAirDrop.svg'
 
-import { CollectibleDetailPage } from '@/pages/Collectibles/CollectibleDetail'
+import { CollectibleDetailPage } from '@/pages/Marketplace/CollectibleDetail'
 import NFTCreatePage from '@/pages/Home/NFTCreate'
 import PersonalHomepage from '@/pages/PersonalHome/index'
 import PleaseWaiting from '@/pages/Home/PleaseWaiting'
@@ -42,7 +42,7 @@ const routes: Route[] = [
   {
     path: '/',
     title: 'Home',
-    match: /(^\/nft\/create)|(\/personal)/,
+    match: /(\/personal)/,
     icon: HomeIcon,
     component: HomePage
   },
@@ -76,14 +76,14 @@ const routes: Route[] = [
   },
 
   {
-    path: '/collectibles',
+    path: '/marketplace',
     title: 'Marketplace',
-    match: /^\/collectible\//,
+    match: /^(\/marketplace\/)|((^\/nft\/create))/,
     icon: MarketplaceIcon,
-    component: CollectiblesPage
+    component: MarketplacePage
   },
   {
-    path: '/collectible/:id',
+    path: '/marketplace/:id',
     title: 'Collectible',
     icon: CollectiblesIcon,
     component: CollectibleDetailPage,

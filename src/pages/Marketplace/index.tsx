@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { Pagination } from 'antd'
+import { Button, Pagination } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
 
 import NFTListItem from '../../components/NFTListItem'
@@ -273,7 +273,7 @@ const NFTList: React.FC<{ list: Array<NftListItem> | undefined }> = ({ list }) =
   )
 }
 
-const CollectiblesPage: React.FC = () => {
+const MarketplacePage: React.FC = () => {
   const history = useHistory()
 
   const [selectedStatus, setSelectedStatus] = useState<BankseaNftTransactionStatus | undefined>()
@@ -298,12 +298,12 @@ const CollectiblesPage: React.FC = () => {
 
   useEffect(() => {
     if (selectedChain || selectedStatus) {
-      history.push('/collectibles')
+      history.push('/marketplace')
     }
   }, [selectedStatus, selectedChain])
 
   const onPageChange = (page: number, pageSize?: number) => {
-    history.push(`/collectibles?page=${page}`)
+    history.push(`/marketplace?page=${page}`)
     pageSize && setSize(pageSize)
   }
 
@@ -334,7 +334,13 @@ const CollectiblesPage: React.FC = () => {
             <div style={{ border: 'solid 0.1rem #305099', marginTop: '3vh' }} />
           </div>
         ) : (
-          <div style={{ width: '120.2rem', display: 'flex', justifyContent: 'flex-end', marginBottom: '5.5rem' }}>
+          <div style={{ width: '120.2rem', display: 'flex', justifyContent: 'space-between', marginBottom: '5.5rem' }}>
+            <Button
+              onClick={() => history.push('/nft/create')}
+              style={{ backgroundColor: '#554BFF', padding: '0 20px' }}
+            >
+              Create NFT Now!
+            </Button>
             <div style={{ display: 'flex' }}>
               <ThemeInput
                 onPressEnter={onPressEnter}
@@ -368,4 +374,4 @@ const CollectiblesPage: React.FC = () => {
   )
 }
 
-export default CollectiblesPage
+export default MarketplacePage

@@ -73,6 +73,10 @@ const UserInfo = styled.div`
       line-height: 2rem;
     }
   }
+
+  .user-sign {
+    margin-bottom: 20px;
+  }
 `
 
 const UserOptions = styled.div`

@@ -77,9 +77,9 @@ const NFTCreatedSuccess: React.FC<NFTCreatedSuccessProps> = () => {
         </SCTitle>
         <SCImage src={getUriByIpfsHash(img!)} alt={name} />
         <SCButtonRow>
-          <Link to="/collectibles" style={{ flex: 8 }}>
+          <Link to="/marketplace" style={{ flex: 8 }}>
             <Button style={{ color: 'white', backgroundColor: '#305099', width: '100%' }}>
-              View in Collectibles
+              View in Marketplace
             </Button>
           </Link>
           <div style={{ flex: 1 }} />

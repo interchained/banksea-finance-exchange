@@ -252,7 +252,8 @@ const Announcement = styled.div`
 `
 
 const CreateButton = styled(Button)`
-  height: 6rem;
+  height: 3vw;
+  width: 6.85vw;
   margin: 5.2rem 0 1.2rem 0;
   background: #554BFF;
   border-radius: 1rem;
@@ -261,7 +262,6 @@ const CreateButton = styled(Button)`
   font-size: 1.6rem;
   font-weight: 500;
   color: #ffffff;
-  line-height: 2.2rem;
 
   @media screen and ( max-width: 1000px ) {
     height: 4rem;
@@ -397,18 +397,12 @@ const NFTCreate: React.FC = () => {
   })
 
   const formInitialValues: NFTCreateForm = {
-    // artworkType: 'pictures',
-    // artworkName: '',
-    // artistName: '',
-    // socialMedia: '',
-    // briefIntroduction: '',
-    // assetIpfsHash: ''
-    artistName: 'Wlop',
-    artworkName: 'Moring 2',
+    artistName: '',
+    artworkName: '',
     artworkType: 'pictures',
-    briefIntroduction: '1',
-    socialMedia: 'https://twitter.com/wlopwangling',
-    assetIpfsHash: 'QmcgCqadauot3eRDpkwQxMU4r1YApVrtp8GqtDUzhZpYTp'
+    briefIntroduction: '',
+    socialMedia: '',
+    assetIpfsHash: ''
   }
 
   const onAssetUploadSuccess = (assetIpfsHash: string) => {

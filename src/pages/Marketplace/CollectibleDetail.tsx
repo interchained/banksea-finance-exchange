@@ -421,6 +421,7 @@ const OtherArtworksContainer = styled.div`
         font-weight: 500;
         color: white;
         line-height: 20px;
+        margin-bottom: 10px;
       }
     }
   }
@@ -1066,7 +1067,7 @@ const MoreArtworks: React.FC = () => {
               0
             </div>
 
-            <div className="liked"> 5BAKE</div>
+            <div className="liked">5 KSE</div>
           </div>
         </div>
         <div className="artwork-group">
@@ -1095,7 +1096,7 @@ const MoreArtworks: React.FC = () => {
               0
             </div>
 
-            <div className="liked"> 5BAKE</div>
+            <div className="liked">6 KSE</div>
           </div>
         </div>
         <div className="artwork-group">
@@ -1124,7 +1125,7 @@ const MoreArtworks: React.FC = () => {
               0
             </div>
 
-            <div className="liked"> 5BAKE</div>
+            <div className="liked"> KSE</div>
           </div>
         </div>
         <div className="artwork-group">
@@ -1153,7 +1154,7 @@ const MoreArtworks: React.FC = () => {
               0
             </div>
 
-            <div className="liked"> 5BAKE</div>
+            <div className="liked">6 KSE</div>
           </div>
         </div>
       </OtherArtworksContainer>
@@ -1173,13 +1174,8 @@ const CollectibleDetailPage: React.FC = () => {
   const account = useSelector(getAccount)
   const currentChain = useSelector(getCurrentChain)
 
-  const uri = useLocationQuery('uri')
+  const uri = useLocationQuery('uri') ?? ''
   const contractAddress = useLocationQuery('contractAddress')
-
-  if (!uri) {
-    history.push('/collectibles')
-    return <div />
-  }
 
   const { data: nftDetail } = useNftDetailQuery({ uri, contractAddress })
 
